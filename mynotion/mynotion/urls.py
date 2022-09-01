@@ -14,23 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.http import HttpResponse
-
-def notes(request, note=''):
-    status_code = 200
-    if note == '':
-        note = 'New-note'
-        status_code = 301
-    value = HttpResponse('This is the main page for notes' + str(note))
-    value.headers['Location'] = note
-    value.status_code = status_code
-    print(value.headers) 
-    return value
-
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', notes),
-    path('<slug:note>', notes),
+    path('', include('notes.urls'))
 ]
