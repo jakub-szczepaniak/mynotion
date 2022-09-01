@@ -4,8 +4,8 @@ from django.http import HttpResponse
 
 def notes(request, note=''):
     if note == '':
-        return redirect(template_name='note.html', note='New-note')
+        return redirect(template_name='notes/note.html', note='New-note')
     else:
-        return render(request, template_name='note.html')
+        return render(request, template_name='notes/note.html')
     
 # Create your views here.
