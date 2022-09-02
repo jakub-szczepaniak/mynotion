@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     path('', views.notes),
-    path('<slug:note>', views.note),
+    path('notes/<slug:note>', views.note),
 ]
