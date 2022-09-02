@@ -4,5 +4,23 @@
 
 <h1>Hello Notes</h1>
 
-{{username}}
+<div class="table">
+    <div class="thead">
+        <div class="th">
+            Notes
+        </div>
+    </div>
+    <div class="tbody">
+        {% for note in notes %}
+            <div class="row">
+                <div class="cell">
+                    <a href="/notes/{{note.slug}}">{{note.title}}</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
 {% endblock content %}
