@@ -25,12 +25,11 @@ def notes(request):
     return render(request, template_name='notes/notes.html', context=context)
 
 def note(request, note_id):
-    note = Note.objects.filter(id=note_id)
-    blocks = Block.objects.filter(note=note_id)
+    note = Note.objects.get(id=note_id)
     context = {
-        'title': note.first().title,
-        'note': note.first(),
-        'blocks': blocks
+        'title': note.title,
+        'note': note,
+        'blocks': note.blocks.all()
 
     }
     return render(request, template_name="notes/single-note.html", context=context)
