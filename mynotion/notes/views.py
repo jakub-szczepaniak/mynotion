@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
-
+from .models import Note, Block
 
 notesList = [
     {
@@ -17,21 +17,21 @@ notesList = [
 ]
 
 def notes(request):
+    notes = Note.objects.all
     context = {
         'username': "Jakub",
-        'notes' : notesList,
+        'notes' : notes,
     }
     return render(request, template_name='notes/notes.html', context=context)
 
 def note(request, note_id):
-    noteObject = None
-    for note in notesList:
-        if note['slug'] == note_id:
-            noteObject = note
-    
+    note = Note.objects.filter(id=note_id)
+    blocks = Block.objects.filter(note=note_id)
     context = {
-        'title': noteObject['title'],
-        'note': noteObject
+        'title': note.first().title,
+        'note': note.first(),
+        'blocks': blocks
+
     }
     return render(request, template_name="notes/single-note.html", context=context)
 

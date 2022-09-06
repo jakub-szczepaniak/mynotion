@@ -3,6 +3,9 @@
 {% block content %}
 
 <h1>{{ title }}</h1>
-<p> {{ note.content }}</p>
+<p> {{ note.blocks }} </p>
+{% for block in blocks %}
+    <p>{{block.content}}</p>
+{% endfor %}
 
 {% endblock content %}
