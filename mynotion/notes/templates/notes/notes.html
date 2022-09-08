@@ -4,22 +4,20 @@
 
 <h1>Hello Notes</h1>
 
-<div class="table">
-    <div class="thead">
-        <div class="th">
-            Notes
-        </div>
-    </div> 
-    <div class="tbody">
+<table>
+    <thead>
+        <th>Notes</th>
+        <th></th>
+    </thead>
+    <tbody>
         {% for note in notes %}
-            <div class="row">
-                <div class="cell">
-                    <a href="{% url 'note' note.id %}">{{note.title}}</a>
-                </div>
-            </div>
+            <tr>    
+                <td><a href="{% url 'note' note.id %}">{{note.title}}</a></td>
+                <td><a href="{% url 'update-note' note.id %}">Edit</a></td>
+            </tr>
         {% endfor %}
-    </div>
-</div>
+    </tbody>
+</table>
 
 
 

@@ -32,3 +32,15 @@ def createNote(request):
             return redirect('notes')
     context = { 'form': form}
     return render(request, 'notes/note-form.html', context=context)
+
+def updateNote(request, note_id):
+    note = Note.objects.get(id=note_id)
+    form = NoteForm(instance=note)
+
+    if request.method == 'POST':
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid:
+            form.save()
+            return redirect('notes')
+    context = { 'form' : form }
+    return render(request, 'notes/note-form.html', context=context)
