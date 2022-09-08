@@ -44,3 +44,11 @@ def updateNote(request, note_id):
             return redirect('notes')
     context = { 'form' : form }
     return render(request, 'notes/note-form.html', context=context)
+
+def deleteNote(request, note_id):
+    note = Note.objects.get(id=note_id)
+    if request.method == 'POST':
+        note.delete()
+        return redirect('notes')
+    context={'object': note}
+    return render(request, 'notes/delete.html', context=context)
