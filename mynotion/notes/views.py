@@ -1,9 +1,10 @@
 import re
 from django.shortcuts import render, redirect
 
+from django.forms.models import modelformset_factory
 from django.http import HttpResponse
 from .models import Note, Block
-from .forms import NoteForm
+from .forms import NoteForm, BlockForm
 
 def notes(request):
     notes = Note.objects.all
@@ -35,14 +36,27 @@ def createNote(request):
 
 def updateNote(request, note_id):
     note = Note.objects.get(id=note_id)
-    form = NoteForm(instance=note)
-
+    note_form = NoteForm(instance=note)
+    blocks = note.blocks.all()
+    BlockFormset = modelformset_factory(Block, BlockForm, extra=1)
+    block_formset = BlockFormset(request.POST or None, queryset=blocks)
     if request.method == 'POST':
-        form = NoteForm(request.POST, instance=note)
-        if form.is_valid:
-            form.save()
+        note_form = NoteForm(request.POST, instance=note)
+        block_formset = BlockFormset(request.POST, queryset=blocks)
+        
+        if all([note_form.is_valid(), block_formset.is_valid()]):
+            note = note_form.save(commit=False)
+            note.save()
+            for form in block_formset:
+                block = form.save(commit=False)
+                if block.note is None:
+                    block.note = note
+                block.save()
             return redirect('notes')
-    context = { 'form' : form }
+    
+    context = { 'form' : note_form,
+                'formset': block_formset }
+    
     return render(request, 'notes/note-form.html', context=context)
 
 def deleteNote(request, note_id):

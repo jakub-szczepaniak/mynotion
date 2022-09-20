@@ -5,6 +5,9 @@
 <form method="post" action="">
     {% csrf_token %}
     {{ form }}
+    {% if formset %}
+        {{ formset.as_p }}
+    {% endif%}
     <input type="submit" value="Submit" />
 </form>
 
